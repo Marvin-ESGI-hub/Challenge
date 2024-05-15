@@ -19,7 +19,7 @@ security:
             form_login:
                 login_path: app_login
                 check_path: app_login
-                default_target_path: /
+                default_target_path: /dashboard
                 enable_csrf: true
             logout:
                 path: app_logout
@@ -29,7 +29,9 @@ security:
         - { path: ^/login$, roles: PUBLIC_ACCESS }
         - { path: ^/register$, roles: PUBLIC_ACCESS }
         - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/, roles: ROLE_USER }
+        - { path: ^/dashboard, roles: ROLE_USER }
+        - { path: ^/, roles: PUBLIC_ACCESS }
+        
 
 when@test:
     security:

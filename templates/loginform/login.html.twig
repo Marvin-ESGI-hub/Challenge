@@ -3,7 +3,14 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-<div class="bg-cover bg-center h-screen" style="background-image: url('{{ asset('images/background.jpg') }}');">
+    <!-- start: Sidebar -->
+        <div class="fixed left-0 top-0 w-1/4 h-full bg-white p-4 z-50 sidebar-menu transition-transform"></div>
+        <div class="fixed top-0 left-0 w-full h-full bg-black/50 z-40 md:hidden sidebar-overlay"></div>
+    <!-- end: Sidebar -->
+
+
+
+<div class="bg-cover bg-center h-screen" style="background-image: url('{{ asset('images/muscu.jpg') }}');">
     <div class="min-h-screen flex items-center justify-center">
         <div class="w-full max-w-md p-8">
             <form method="post">
@@ -13,7 +20,7 @@
 
                 {% if app.user %}
                     <div class="mb-3">
-                        You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                        Vous êtes connecté en tant que : {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Se déconnecter</a>
                     </div>
                 {% endif %}
 

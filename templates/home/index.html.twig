@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+<div class="bg-cover bg-center h-screen>
+    <div class="flex items-start justify-end p-5">
+        <a href="/login">
+            <button class="w-[180px] h-[50px] rounded-[10px] text-xl mt-5 mr-2 bg-white border border-[#f48000] text-[#f48000] hover:bg-[#f48000] hover:text-white font-bold" style="box-shadow: 0px 4px 4px 0 rgba(0,0,0,0.25);">Connexion</button>
+        </a>    
+        <button class="w-[180px] h-[50px] rounded-[10px] text-xl mt-5 bg-[#f48000] text-white font-bold" style="box-shadow: 0px 4px 4px 0 rgba(0,0,0,0.25);">Inscription</button>
+    </div>
+    <div>
+        <div class="w-80 h-80 absolute left-2/3 top-8 bg-black"></div>
+        <div class="w-[505px] h-[505px] absolute left-[1052px] top-[215px] rounded-tl-[416px] bg-[#f48000]"></div>
+        <svg class="absolute w-[11] h-[11] left-[716px] top-[612px]" preserveAspectRatio="none">
+            <path d="M161 80.5C161 124.959 124.959 161 80.5 161C36.0411 161 0 124.959 0 80.5C0 36.0411 36.0411 0 80.5 0C124.959 0 161 36.0411 161 80.5ZM3.40921 80.5C3.40921 123.076 37.9239 157.591 80.5 157.591C123.076 157.591 157.591 123.076 157.591 80.5C157.591 37.9239 123.076 3.40921 80.5 3.40921C37.9239 3.40921 3.40921 37.9239 3.40921 80.5Z" fill="black"></path>
+        </svg>
+    </div>
+</div>
+{% endblock %}
