@@ -19,17 +19,22 @@ security:
             form_login:
                 login_path: app_login
                 check_path: app_login
-                default_target_path: /dashboard
+                default_target_path: /redirect
                 enable_csrf: true
             logout:
                 path: app_logout
                 target: app_login
+    
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
+        ROLE_COMPANY: ROLE_USER
 
     access_control:
         - { path: ^/login$, roles: PUBLIC_ACCESS }
         - { path: ^/register$, roles: PUBLIC_ACCESS }
         - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/dashboard, roles: ROLE_USER }
+        - { path: ^/redirect, roles: ROLE_USER }
+        - { path: ^/dashboard, roles: ROLE_COMPANY }
         - { path: ^/, roles: PUBLIC_ACCESS }
         
 

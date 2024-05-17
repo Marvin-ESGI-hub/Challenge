@@ -5,41 +5,28 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Repository\UserRepository;
-use App\Form\ClientsFormType;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\Company;
 use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Clients;
+use App\Entity\Company;
+use App\Entity\User;
+use App\Form\ClientsFormType;
 
-class DashBoardController extends AbstractController
+class ClientsController extends AbstractController
 {
-
-    #[Route('/dashboard', name: 'app_dashboard')]
-    public function dashboard(): Response
-    {
-        $user = $this->getUser();
-        $company = $user->getCompany();
-
-        return $this->render('backoffice/base.html.twig', [
-            'company' => $company,
-        ]);
-    }
-
-    #[Route('dashboard/clients', name: 'app_clients')]
+    #[Route('/clients', name: 'app_clients')]
     public function index(EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
         $company = $user->getCompany();
         $clients = $company->getClients();
 
-        return $this->render('backoffice/clients/index.html.twig', [
+        return $this->render('client/index.html.twig', [
             'clients' => $clients,
         ]);
     }
 
-    
-    #[Route('dashboard/clients/new', name: 'app_clients_create')]
+    #[Route('/clients/new', name: 'client_new')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
@@ -54,19 +41,11 @@ class DashBoardController extends AbstractController
             $entityManager->persist($client);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_clients');
+            return $this->redirectToRoute('client_index');
         }
 
-        return $this->render('backoffice/clients/create.html.twig', [
+        return $this->render('client/new.html.twig', [
             'clientForm' => $form->createView(),
-        ]);
-    }
-
-    #[Route('/dashboard/components', name: 'app_dashboard_components')]
-    public function components(UserRepository $userRepository): Response
-    {
-        return $this->render('backoffice/components.html.twig', [
-            'user' => $userRepository->findAll(),
         ]);
     }
 }

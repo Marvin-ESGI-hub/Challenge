@@ -43,6 +43,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
+    #[ORM\Column(length: 255)]
+    private ?string $gender = null;
+
+    #[ORM\OneToOne(mappedBy: 'user_id', cascade: ['persist', 'remove'])]
+    private ?Company $company = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -116,6 +122,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function addRole(string $role): self
+    {
+        if (!in_array($role, $this->roles)) {
+            $this->roles[] = $role;
+        }
+
+        return $this;
+    }
+
+    public function removeRole(string $role): self
+    {
+        if (in_array($role, $this->roles)) {
+            unset($this->roles[array_search($role, $this->roles)]);
+            $this->roles = array_values($this->roles);
+        }
+
+        return $this;
+    }
+
     /**
      * @see PasswordAuthenticatedUserInterface
      */
@@ -148,6 +173,40 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    public function setGender(string $gender): static
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Company $company): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($company === null && $this->company !== null) {
+            $this->company->setUserId(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($company !== null && $company->getUserId() !== $this) {
+            $company->setUserId($this);
+        }
+
+        $this->company = $company;
 
         return $this;
     }

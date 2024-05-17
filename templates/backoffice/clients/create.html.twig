@@ -1,0 +1,24 @@
+{% extends 'backoffice/base.html.twig' %}
+
+{% block title %}Add New Client{% endblock %}
+
+{% block body %}
+    <div class="p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+            <div class="bg-white rounded-md border border-gray-100 p-4 shadow-md shadow-black/5 ml-64">
+                <h1 class="pb-4">Nouveau client !</h1>
+
+                {{ form_start(clientForm) }}
+                {{ form_row(clientForm.name) }}
+                {{ form_row(clientForm.lastname) }}
+                {{ form_row(clientForm.email) }}
+                {{ form_row(clientForm.phone) }}
+                <button type="submit">Save</button>
+                {{ form_end(clientForm) }}
+
+                <a href="{{ path('app_clients') }}">Back to list</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

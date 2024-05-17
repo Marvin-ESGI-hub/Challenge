@@ -5,7 +5,11 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Company;
 
 class LoginFormController extends AbstractController
 {
@@ -22,6 +26,22 @@ class LoginFormController extends AbstractController
             'last_username' => $lastUsername,
             'error' => $error,
         ]);
+    }
+
+    #[Route(path: '/redirect', name: 'app_redirect')]
+    public function redirectAfterLogin(): Response
+    {
+        $user = $this->getUser();
+
+        if (!$user instanceof UserInterface) {
+            throw new \LogicException('The user is not logged in.');
+        }
+
+        if (!$user->getCompany()) {
+            return $this->redirectToRoute('app_company');
+        }
+
+        return $this->redirectToRoute('app_dashboard');
     }
 
     #[Route(path: '/logout', name: 'app_logout')]
