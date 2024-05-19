@@ -8,26 +8,31 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\UserRepository;
 use App\Form\ClientsFormType;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Form\SettingsFormType;
 use App\Entity\Company;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Clients;
+use App\Entity\User;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class DashBoardController extends AbstractController
 {
 
     #[Route('/dashboard', name: 'app_dashboard')]
-    public function dashboard(): Response
+    public function dashboard(#[CurrentUser] User $user): Response
     {
-        $user = $this->getUser();
         $company = $user->getCompany();
+        $theme = $user ? $user->getTheme() : 'original';
 
         return $this->render('backoffice/base.html.twig', [
             'company' => $company,
+            'theme' => $theme,
         ]);
     }
 
     #[Route('dashboard/clients', name: 'app_clients')]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(): Response
     {
         $user = $this->getUser();
         $company = $user->getCompany();
@@ -62,11 +67,28 @@ class DashBoardController extends AbstractController
         ]);
     }
 
-    #[Route('/dashboard/components', name: 'app_dashboard_components')]
-    public function components(UserRepository $userRepository): Response
+
+
+    #[Route('dashboard/settings', name: 'app_settings')]
+    public function settings(Request $request, EntityManagerInterface $entityManager, #[CurrentUser] User $user)
     {
-        return $this->render('backoffice/components.html.twig', [
-            'user' => $userRepository->findAll(),
+
+        $form = $this->createForm(SettingsFormType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $theme = $form->get('theme')->getData();
+            $user->setTheme($theme);
+            
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_dashboard');
+        }
+
+        return $this->render('backoffice/settings/index.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 }

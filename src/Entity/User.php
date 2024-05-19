@@ -49,6 +49,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(mappedBy: 'user_id', cascade: ['persist', 'remove'])]
     private ?Company $company = null;
 
+    #[ORM\Column(length: 255, options: ['default' => 'original'])]
+    private ?string $theme = 'original';
+
     public function getId(): ?int
     {
         return $this->id;
@@ -207,6 +210,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->company = $company;
+
+        return $this;
+    }
+
+    public function getTheme(): ?string
+    {
+        return $this->theme;
+    }
+
+    public function setTheme(string $theme): static
+    {
+        $this->theme = $theme;
 
         return $this;
     }
