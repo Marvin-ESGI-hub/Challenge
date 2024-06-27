@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer son entreprise{% endblock %}
+
+{% block body %}
+ <h1>Create Company</h1>
+
+    {{ form_start(companyForm) }}
+        {{ form_row(companyForm.name) }}
+        {{ form_row(companyForm.siret) }}
+        <button class="btn">Create</button>
+    {{ form_end(companyForm) }}
+{% endblock %}
