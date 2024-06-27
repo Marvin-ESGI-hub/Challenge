@@ -1,2 +1,0 @@
-# Challenge
-Challenge ESGI
