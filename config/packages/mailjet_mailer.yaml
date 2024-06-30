@@ -1,0 +1,6 @@
+# config/packages/mailjet_mailer.yaml
+mailjet_mailer:
+    api_key: '%env(MAILJET_API_KEY)%'
+    secret_key: '%env(MAILJET_SECRET_KEY)%'
+    sender_email: 'noreply@gymvoice.com'
+    sender_name: 'GYMVOICE'
